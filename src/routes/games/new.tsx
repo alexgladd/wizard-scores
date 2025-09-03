@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Game } from "@/lib/storage";
 import { useForm, useStore } from "@tanstack/react-form";
 import {
   createFileRoute,
@@ -48,6 +49,14 @@ function NewGameComponent() {
         }
       },
     },
+    onSubmit: async ({ value }) => {
+      const g = await Game.new(value.players);
+      console.log("Created new game", g);
+      router.navigate({
+        to: "/games/$gameId/rounds/$roundId/bid",
+        params: { gameId: g.id.toString(), roundId: "1" },
+      });
+    },
   });
 
   const formErrorMap = useStore(form.store, (state) => state.errorMap);
@@ -60,7 +69,14 @@ function NewGameComponent() {
         </h1>
       </section>
       <section className="mb-10 grow flex flex-col">
-        <form id="newgame">
+        <form
+          id="newgame"
+          onSubmit={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            form.handleSubmit();
+          }}
+        >
           <form.Field name="players" mode="array">
             {(field) => (
               <>
@@ -143,6 +159,8 @@ function NewGameComponent() {
           >
             {([isPristine, canSubmit, isSubmitting]) => (
               <Button
+                type="submit"
+                form="newgame"
                 className="text-lg self-end"
                 disabled={isPristine || !canSubmit || isSubmitting}
               >

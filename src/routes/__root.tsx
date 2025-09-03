@@ -1,9 +1,15 @@
 import { Button } from "@/components/ui/button";
-import { createRootRoute, Outlet } from "@tanstack/react-router";
+import type { Game } from "@/lib/storage";
+import { createRootRouteWithContext, Outlet } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 import { Menu } from "lucide-react";
 
-export const Route = createRootRoute({
+interface RouterCtx {
+  game?: Game;
+  roundId?: number;
+}
+
+export const Route = createRootRouteWithContext<RouterCtx>()({
   component: RootComponent,
 });
 

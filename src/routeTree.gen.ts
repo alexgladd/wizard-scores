@@ -11,6 +11,9 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as GamesNewRouteImport } from './routes/games/new'
+import { Route as GamesGameIdRouteImport } from './routes/games/$gameId'
+import { Route as GamesGameIdRoundsRoundIdRouteImport } from './routes/games/$gameId.rounds/$roundId'
+import { Route as GamesGameIdRoundsRoundIdBidRouteImport } from './routes/games/$gameId.rounds/$roundId.bid'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -22,30 +25,73 @@ const GamesNewRoute = GamesNewRouteImport.update({
   path: '/games/new',
   getParentRoute: () => rootRouteImport,
 } as any)
+const GamesGameIdRoute = GamesGameIdRouteImport.update({
+  id: '/games/$gameId',
+  path: '/games/$gameId',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GamesGameIdRoundsRoundIdRoute =
+  GamesGameIdRoundsRoundIdRouteImport.update({
+    id: '/rounds/$roundId',
+    path: '/rounds/$roundId',
+    getParentRoute: () => GamesGameIdRoute,
+  } as any)
+const GamesGameIdRoundsRoundIdBidRoute =
+  GamesGameIdRoundsRoundIdBidRouteImport.update({
+    id: '/bid',
+    path: '/bid',
+    getParentRoute: () => GamesGameIdRoundsRoundIdRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/games/$gameId': typeof GamesGameIdRouteWithChildren
   '/games/new': typeof GamesNewRoute
+  '/games/$gameId/rounds/$roundId': typeof GamesGameIdRoundsRoundIdRouteWithChildren
+  '/games/$gameId/rounds/$roundId/bid': typeof GamesGameIdRoundsRoundIdBidRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/games/$gameId': typeof GamesGameIdRouteWithChildren
   '/games/new': typeof GamesNewRoute
+  '/games/$gameId/rounds/$roundId': typeof GamesGameIdRoundsRoundIdRouteWithChildren
+  '/games/$gameId/rounds/$roundId/bid': typeof GamesGameIdRoundsRoundIdBidRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/games/$gameId': typeof GamesGameIdRouteWithChildren
   '/games/new': typeof GamesNewRoute
+  '/games/$gameId/rounds/$roundId': typeof GamesGameIdRoundsRoundIdRouteWithChildren
+  '/games/$gameId/rounds/$roundId/bid': typeof GamesGameIdRoundsRoundIdBidRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/games/new'
+  fullPaths:
+    | '/'
+    | '/games/$gameId'
+    | '/games/new'
+    | '/games/$gameId/rounds/$roundId'
+    | '/games/$gameId/rounds/$roundId/bid'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/games/new'
-  id: '__root__' | '/' | '/games/new'
+  to:
+    | '/'
+    | '/games/$gameId'
+    | '/games/new'
+    | '/games/$gameId/rounds/$roundId'
+    | '/games/$gameId/rounds/$roundId/bid'
+  id:
+    | '__root__'
+    | '/'
+    | '/games/$gameId'
+    | '/games/new'
+    | '/games/$gameId/rounds/$roundId'
+    | '/games/$gameId/rounds/$roundId/bid'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  GamesGameIdRoute: typeof GamesGameIdRouteWithChildren
   GamesNewRoute: typeof GamesNewRoute
 }
 
@@ -65,11 +111,59 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof GamesNewRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/games/$gameId': {
+      id: '/games/$gameId'
+      path: '/games/$gameId'
+      fullPath: '/games/$gameId'
+      preLoaderRoute: typeof GamesGameIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/games/$gameId/rounds/$roundId': {
+      id: '/games/$gameId/rounds/$roundId'
+      path: '/rounds/$roundId'
+      fullPath: '/games/$gameId/rounds/$roundId'
+      preLoaderRoute: typeof GamesGameIdRoundsRoundIdRouteImport
+      parentRoute: typeof GamesGameIdRoute
+    }
+    '/games/$gameId/rounds/$roundId/bid': {
+      id: '/games/$gameId/rounds/$roundId/bid'
+      path: '/bid'
+      fullPath: '/games/$gameId/rounds/$roundId/bid'
+      preLoaderRoute: typeof GamesGameIdRoundsRoundIdBidRouteImport
+      parentRoute: typeof GamesGameIdRoundsRoundIdRoute
+    }
   }
 }
 
+interface GamesGameIdRoundsRoundIdRouteChildren {
+  GamesGameIdRoundsRoundIdBidRoute: typeof GamesGameIdRoundsRoundIdBidRoute
+}
+
+const GamesGameIdRoundsRoundIdRouteChildren: GamesGameIdRoundsRoundIdRouteChildren =
+  {
+    GamesGameIdRoundsRoundIdBidRoute: GamesGameIdRoundsRoundIdBidRoute,
+  }
+
+const GamesGameIdRoundsRoundIdRouteWithChildren =
+  GamesGameIdRoundsRoundIdRoute._addFileChildren(
+    GamesGameIdRoundsRoundIdRouteChildren,
+  )
+
+interface GamesGameIdRouteChildren {
+  GamesGameIdRoundsRoundIdRoute: typeof GamesGameIdRoundsRoundIdRouteWithChildren
+}
+
+const GamesGameIdRouteChildren: GamesGameIdRouteChildren = {
+  GamesGameIdRoundsRoundIdRoute: GamesGameIdRoundsRoundIdRouteWithChildren,
+}
+
+const GamesGameIdRouteWithChildren = GamesGameIdRoute._addFileChildren(
+  GamesGameIdRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  GamesGameIdRoute: GamesGameIdRouteWithChildren,
   GamesNewRoute: GamesNewRoute,
 }
 export const routeTree = rootRouteImport
