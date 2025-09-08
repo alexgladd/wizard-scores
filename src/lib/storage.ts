@@ -1,5 +1,6 @@
 import { UTCDate } from "@date-fns/utc";
 import { getUnixTime } from "date-fns";
+import { Rules } from "./rules";
 
 export interface NewPlayer {
   name: string;
@@ -81,6 +82,39 @@ export const Game = {
 
   async update(game: Game) {
     await setItemAsync(`${GAME_PREFIX}${game.id}`, JSON.stringify(game));
+  },
+
+  async getRound(game: Game, roundNum: number) {
+    if (roundNum < 1 || roundNum > Rules.numRounds(game.players.length)) {
+      console.error(
+        `[Storage]: round number ${roundNum} invalid for game of ${game.players.length} players`
+      );
+      return null;
+    }
+
+    if (roundNum <= game.rounds.length) {
+      // existing round
+      return game.rounds[roundNum - 1];
+    } else if (roundNum === game.rounds.length + 1) {
+      // create the next round
+      console.log(`[Storage]: creating new round ${roundNum}`);
+      const round: Round = {
+        numTricks: roundNum,
+        bids: [],
+        tricks: [],
+      };
+
+      game.rounds.push(round);
+      await this.update(game);
+
+      return round;
+    } else {
+      // bad state
+      console.error(
+        `[Storage]: Invalid round number ${roundNum} for game with ${game.rounds.length} rounds`
+      );
+      return null;
+    }
   },
 };
 

@@ -1,12 +1,12 @@
 import { Button } from "@/components/ui/button";
-import type { Game } from "@/lib/storage";
+import type { Game, Round } from "@/lib/storage";
 import { createRootRouteWithContext, Outlet } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 import { Menu } from "lucide-react";
 
 interface RouterCtx {
   game?: Game;
-  roundId?: number;
+  round?: Round;
 }
 
 export const Route = createRootRouteWithContext<RouterCtx>()({
