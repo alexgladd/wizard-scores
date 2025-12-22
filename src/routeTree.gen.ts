@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as GamesNewRouteImport } from './routes/games/new'
 import { Route as GamesGameIdRouteImport } from './routes/games/$gameId'
 import { Route as GamesGameIdRoundsRoundIdRouteImport } from './routes/games/$gameId.rounds/$roundId'
+import { Route as GamesGameIdRoundsRoundIdPlayRouteImport } from './routes/games/$gameId.rounds/$roundId.play'
 import { Route as GamesGameIdRoundsRoundIdBidRouteImport } from './routes/games/$gameId.rounds/$roundId.bid'
 
 const IndexRoute = IndexRouteImport.update({
@@ -36,6 +37,12 @@ const GamesGameIdRoundsRoundIdRoute =
     path: '/rounds/$roundId',
     getParentRoute: () => GamesGameIdRoute,
   } as any)
+const GamesGameIdRoundsRoundIdPlayRoute =
+  GamesGameIdRoundsRoundIdPlayRouteImport.update({
+    id: '/play',
+    path: '/play',
+    getParentRoute: () => GamesGameIdRoundsRoundIdRoute,
+  } as any)
 const GamesGameIdRoundsRoundIdBidRoute =
   GamesGameIdRoundsRoundIdBidRouteImport.update({
     id: '/bid',
@@ -49,6 +56,7 @@ export interface FileRoutesByFullPath {
   '/games/new': typeof GamesNewRoute
   '/games/$gameId/rounds/$roundId': typeof GamesGameIdRoundsRoundIdRouteWithChildren
   '/games/$gameId/rounds/$roundId/bid': typeof GamesGameIdRoundsRoundIdBidRoute
+  '/games/$gameId/rounds/$roundId/play': typeof GamesGameIdRoundsRoundIdPlayRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -56,6 +64,7 @@ export interface FileRoutesByTo {
   '/games/new': typeof GamesNewRoute
   '/games/$gameId/rounds/$roundId': typeof GamesGameIdRoundsRoundIdRouteWithChildren
   '/games/$gameId/rounds/$roundId/bid': typeof GamesGameIdRoundsRoundIdBidRoute
+  '/games/$gameId/rounds/$roundId/play': typeof GamesGameIdRoundsRoundIdPlayRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -64,6 +73,7 @@ export interface FileRoutesById {
   '/games/new': typeof GamesNewRoute
   '/games/$gameId/rounds/$roundId': typeof GamesGameIdRoundsRoundIdRouteWithChildren
   '/games/$gameId/rounds/$roundId/bid': typeof GamesGameIdRoundsRoundIdBidRoute
+  '/games/$gameId/rounds/$roundId/play': typeof GamesGameIdRoundsRoundIdPlayRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -73,6 +83,7 @@ export interface FileRouteTypes {
     | '/games/new'
     | '/games/$gameId/rounds/$roundId'
     | '/games/$gameId/rounds/$roundId/bid'
+    | '/games/$gameId/rounds/$roundId/play'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -80,6 +91,7 @@ export interface FileRouteTypes {
     | '/games/new'
     | '/games/$gameId/rounds/$roundId'
     | '/games/$gameId/rounds/$roundId/bid'
+    | '/games/$gameId/rounds/$roundId/play'
   id:
     | '__root__'
     | '/'
@@ -87,6 +99,7 @@ export interface FileRouteTypes {
     | '/games/new'
     | '/games/$gameId/rounds/$roundId'
     | '/games/$gameId/rounds/$roundId/bid'
+    | '/games/$gameId/rounds/$roundId/play'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -125,6 +138,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof GamesGameIdRoundsRoundIdRouteImport
       parentRoute: typeof GamesGameIdRoute
     }
+    '/games/$gameId/rounds/$roundId/play': {
+      id: '/games/$gameId/rounds/$roundId/play'
+      path: '/play'
+      fullPath: '/games/$gameId/rounds/$roundId/play'
+      preLoaderRoute: typeof GamesGameIdRoundsRoundIdPlayRouteImport
+      parentRoute: typeof GamesGameIdRoundsRoundIdRoute
+    }
     '/games/$gameId/rounds/$roundId/bid': {
       id: '/games/$gameId/rounds/$roundId/bid'
       path: '/bid'
@@ -137,11 +157,13 @@ declare module '@tanstack/react-router' {
 
 interface GamesGameIdRoundsRoundIdRouteChildren {
   GamesGameIdRoundsRoundIdBidRoute: typeof GamesGameIdRoundsRoundIdBidRoute
+  GamesGameIdRoundsRoundIdPlayRoute: typeof GamesGameIdRoundsRoundIdPlayRoute
 }
 
 const GamesGameIdRoundsRoundIdRouteChildren: GamesGameIdRoundsRoundIdRouteChildren =
   {
     GamesGameIdRoundsRoundIdBidRoute: GamesGameIdRoundsRoundIdBidRoute,
+    GamesGameIdRoundsRoundIdPlayRoute: GamesGameIdRoundsRoundIdPlayRoute,
   }
 
 const GamesGameIdRoundsRoundIdRouteWithChildren =

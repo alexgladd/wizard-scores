@@ -84,6 +84,17 @@ export const Game = {
     await setItemAsync(`${GAME_PREFIX}${game.id}`, JSON.stringify(game));
   },
 
+  async startRound(game: Game, roundNum: number, bids: number[]) {
+    const round = await this.getRound(game, roundNum);
+    if (round) {
+      round.bids = bids;
+      await this.update(game);
+      return round;
+    } else {
+      return null;
+    }
+  },
+
   async getRound(game: Game, roundNum: number) {
     if (roundNum < 1 || roundNum > Rules.numRounds(game.players.length)) {
       console.error(
@@ -100,8 +111,8 @@ export const Game = {
       console.log(`[Storage]: creating new round ${roundNum}`);
       const round: Round = {
         numTricks: roundNum,
-        bids: [],
-        tricks: [],
+        bids: game.players.map(() => 0),
+        tricks: game.players.map(() => 0),
       };
 
       game.rounds.push(round);

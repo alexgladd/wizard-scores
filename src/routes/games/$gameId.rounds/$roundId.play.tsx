@@ -1,5 +1,4 @@
 import { Button } from "@/components/ui/button";
-import { Game } from "@/lib/storage";
 import { cn } from "@/lib/utils";
 import {
   createFileRoute,
@@ -15,46 +14,32 @@ import {
 } from "lucide-react";
 import { Fragment, useState } from "react";
 
-export const Route = createFileRoute("/games/$gameId/rounds/$roundId/bid")({
-  component: RoundBid,
+export const Route = createFileRoute("/games/$gameId/rounds/$roundId/play")({
+  component: RoundPlay,
 });
 
-function RoundBid() {
+function RoundPlay() {
   const router = useRouter();
   const canGoBack = useCanGoBack();
   const { game, round } = Route.useRouteContext();
-  const [bids, setBids] = useState(round!.bids);
+  const [tricks, setTricks] = useState(round!.tricks);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const totalBids = bids.reduce((acc, n) => acc + n, 0);
+  const totalTricks = tricks.reduce((acc, n) => acc + n, 0);
 
-  const incrementBidFn = (idx: number) => () => {
-    setBids((b) => {
-      const newBids = b.slice();
-      newBids[idx] = ++newBids[idx];
-      return newBids;
+  const incrementTrickFn = (idx: number) => () => {
+    setTricks((t) => {
+      const newTricks = t.slice();
+      newTricks[idx] = ++newTricks[idx];
+      return newTricks;
     });
   };
 
-  const decrementBidFn = (idx: number) => () => {
-    setBids((b) => {
-      const newBids = b.slice();
-      newBids[idx] = --newBids[idx];
-      return newBids;
+  const decrementTrickFn = (idx: number) => () => {
+    setTricks((t) => {
+      const newTricks = t.slice();
+      newTricks[idx] = --newTricks[idx];
+      return newTricks;
     });
-  };
-
-  const onStartClicked = async () => {
-    setIsSubmitting(true);
-    const r = await Game.startRound(game!, round!.numTricks, bids);
-    if (r) {
-      router.navigate({
-        to: "/games/$gameId/rounds/$roundId/play",
-        params: {
-          gameId: game!.id.toString(),
-          roundId: r.numTricks.toString(),
-        },
-      });
-    }
   };
 
   return (
@@ -63,41 +48,57 @@ function RoundBid() {
         <div className="grid grid-cols-2 gap-3">
           {game!.players.map((player, idx) => (
             <Fragment key={`${idx}-${player}`}>
-              <div className="py-4 text-lg">{player.name}'s bid:</div>
+              <div className="py-4 text-lg">{player.name}'s tricks:</div>
               <div className="flex items-center gap-3">
                 <Button
                   className="grow"
-                  onClick={decrementBidFn(idx)}
-                  disabled={bids[idx] === 0}
+                  onClick={decrementTrickFn(idx)}
+                  disabled={tricks[idx] === 0}
                 >
                   <Minus className="size-6" />
                 </Button>
-                <div className="px-3 py-2 border border-muted text-xl font-bold font-mono rounded">
-                  {bids[idx]}
+                <div
+                  className={cn(
+                    "px-3 py-2 border border-muted text-xl font-bold font-mono rounded",
+                    tricks[idx] === round!.bids[idx]
+                      ? "bg-success/50"
+                      : "bg-destructive/50"
+                  )}
+                >
+                  {tricks[idx]}
+                  {"/"}
+                  {round!.bids[idx]}
                 </div>
                 <Button
                   className="grow"
-                  onClick={incrementBidFn(idx)}
-                  disabled={bids[idx] === round!.numTricks}
+                  onClick={incrementTrickFn(idx)}
+                  disabled={totalTricks === round!.numTricks}
                 >
                   <Plus className="size-6" />
                 </Button>
               </div>
             </Fragment>
           ))}
-          <div className="py-4 text-lg font-bold">Total bids:</div>
+          <div className="py-4 text-lg font-bold">Total tricks:</div>
           <div className="flex items-center justify-center gap-3">
             <div
               className={cn(
                 "px-3 py-2 border border-muted text-xl font-bold font-mono rounded",
-                totalBids === round!.numTricks
+                totalTricks === round!.numTricks
                   ? "bg-success/50"
                   : "bg-destructive/50"
               )}
             >
-              {totalBids}
+              {totalTricks}
             </div>
           </div>
+        </div>
+      </section>
+      <section>
+        <div className="p-2 text-muted-foreground text-center italic">
+          {totalTricks !== round!.numTricks
+            ? "Please record all tricks"
+            : "Good to go!"}
         </div>
       </section>
       <section>
@@ -115,10 +116,10 @@ function RoundBid() {
           )}
           <Button
             className="text-lg self-end"
-            disabled={isSubmitting}
-            onClick={onStartClicked}
+            disabled={isSubmitting || totalTricks !== round!.numTricks}
+            onClick={() => {}}
           >
-            Start{" "}
+            Next{" "}
             {isSubmitting ? (
               <LoaderCircle className="size-6 animate-spin" />
             ) : (
