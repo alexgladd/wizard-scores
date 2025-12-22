@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as GamesNewRouteImport } from './routes/games/new'
 import { Route as GamesGameIdRouteImport } from './routes/games/$gameId'
+import { Route as GamesGameIdSummaryRouteImport } from './routes/games/$gameId.summary'
 import { Route as GamesGameIdRoundsRoundIdRouteImport } from './routes/games/$gameId.rounds/$roundId'
 import { Route as GamesGameIdRoundsRoundIdPlayRouteImport } from './routes/games/$gameId.rounds/$roundId.play'
 import { Route as GamesGameIdRoundsRoundIdBidRouteImport } from './routes/games/$gameId.rounds/$roundId.bid'
@@ -30,6 +31,11 @@ const GamesGameIdRoute = GamesGameIdRouteImport.update({
   id: '/games/$gameId',
   path: '/games/$gameId',
   getParentRoute: () => rootRouteImport,
+} as any)
+const GamesGameIdSummaryRoute = GamesGameIdSummaryRouteImport.update({
+  id: '/summary',
+  path: '/summary',
+  getParentRoute: () => GamesGameIdRoute,
 } as any)
 const GamesGameIdRoundsRoundIdRoute =
   GamesGameIdRoundsRoundIdRouteImport.update({
@@ -54,6 +60,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/games/$gameId': typeof GamesGameIdRouteWithChildren
   '/games/new': typeof GamesNewRoute
+  '/games/$gameId/summary': typeof GamesGameIdSummaryRoute
   '/games/$gameId/rounds/$roundId': typeof GamesGameIdRoundsRoundIdRouteWithChildren
   '/games/$gameId/rounds/$roundId/bid': typeof GamesGameIdRoundsRoundIdBidRoute
   '/games/$gameId/rounds/$roundId/play': typeof GamesGameIdRoundsRoundIdPlayRoute
@@ -62,6 +69,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/games/$gameId': typeof GamesGameIdRouteWithChildren
   '/games/new': typeof GamesNewRoute
+  '/games/$gameId/summary': typeof GamesGameIdSummaryRoute
   '/games/$gameId/rounds/$roundId': typeof GamesGameIdRoundsRoundIdRouteWithChildren
   '/games/$gameId/rounds/$roundId/bid': typeof GamesGameIdRoundsRoundIdBidRoute
   '/games/$gameId/rounds/$roundId/play': typeof GamesGameIdRoundsRoundIdPlayRoute
@@ -71,6 +79,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/games/$gameId': typeof GamesGameIdRouteWithChildren
   '/games/new': typeof GamesNewRoute
+  '/games/$gameId/summary': typeof GamesGameIdSummaryRoute
   '/games/$gameId/rounds/$roundId': typeof GamesGameIdRoundsRoundIdRouteWithChildren
   '/games/$gameId/rounds/$roundId/bid': typeof GamesGameIdRoundsRoundIdBidRoute
   '/games/$gameId/rounds/$roundId/play': typeof GamesGameIdRoundsRoundIdPlayRoute
@@ -81,6 +90,7 @@ export interface FileRouteTypes {
     | '/'
     | '/games/$gameId'
     | '/games/new'
+    | '/games/$gameId/summary'
     | '/games/$gameId/rounds/$roundId'
     | '/games/$gameId/rounds/$roundId/bid'
     | '/games/$gameId/rounds/$roundId/play'
@@ -89,6 +99,7 @@ export interface FileRouteTypes {
     | '/'
     | '/games/$gameId'
     | '/games/new'
+    | '/games/$gameId/summary'
     | '/games/$gameId/rounds/$roundId'
     | '/games/$gameId/rounds/$roundId/bid'
     | '/games/$gameId/rounds/$roundId/play'
@@ -97,6 +108,7 @@ export interface FileRouteTypes {
     | '/'
     | '/games/$gameId'
     | '/games/new'
+    | '/games/$gameId/summary'
     | '/games/$gameId/rounds/$roundId'
     | '/games/$gameId/rounds/$roundId/bid'
     | '/games/$gameId/rounds/$roundId/play'
@@ -130,6 +142,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/games/$gameId'
       preLoaderRoute: typeof GamesGameIdRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/games/$gameId/summary': {
+      id: '/games/$gameId/summary'
+      path: '/summary'
+      fullPath: '/games/$gameId/summary'
+      preLoaderRoute: typeof GamesGameIdSummaryRouteImport
+      parentRoute: typeof GamesGameIdRoute
     }
     '/games/$gameId/rounds/$roundId': {
       id: '/games/$gameId/rounds/$roundId'
@@ -172,10 +191,12 @@ const GamesGameIdRoundsRoundIdRouteWithChildren =
   )
 
 interface GamesGameIdRouteChildren {
+  GamesGameIdSummaryRoute: typeof GamesGameIdSummaryRoute
   GamesGameIdRoundsRoundIdRoute: typeof GamesGameIdRoundsRoundIdRouteWithChildren
 }
 
 const GamesGameIdRouteChildren: GamesGameIdRouteChildren = {
+  GamesGameIdSummaryRoute: GamesGameIdSummaryRoute,
   GamesGameIdRoundsRoundIdRoute: GamesGameIdRoundsRoundIdRouteWithChildren,
 }
 

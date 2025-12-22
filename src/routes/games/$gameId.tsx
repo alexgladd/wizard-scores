@@ -1,6 +1,15 @@
+import { Button } from "@/components/ui/button";
 import { Game } from "@/lib/storage";
-import { createFileRoute, notFound, Outlet } from "@tanstack/react-router";
+import { Route as SummaryRoute } from "@/routes/games/$gameId.summary";
+import {
+  createFileRoute,
+  Link,
+  notFound,
+  Outlet,
+  useRouterState,
+} from "@tanstack/react-router";
 import { format, fromUnixTime } from "date-fns";
+import { TrophyIcon } from "lucide-react";
 
 export const Route = createFileRoute("/games/$gameId")({
   component: GameLayout,
@@ -27,11 +36,12 @@ export const Route = createFileRoute("/games/$gameId")({
 });
 
 function GameLayout() {
+  const routerState = useRouterState();
   const game = Route.useLoaderData();
 
   return (
     <main className="p-4 grow overflow-y-hidden flex flex-col">
-      <section className="mb-4">
+      <section className="mb-4 relative">
         <h1 className="text-xl font-bold tracking-wide text-center">
           Game #{game.id}
         </h1>
@@ -39,6 +49,20 @@ function GameLayout() {
           {format(fromUnixTime(game.timestamp), "PP")} @{" "}
           {format(fromUnixTime(game.timestamp), "p")}
         </aside>
+        {routerState.matches.at(-1)!.routeId !== SummaryRoute.fullPath && (
+          <Button
+            variant="outline"
+            className="size-12 absolute top-0 right-0"
+            asChild
+          >
+            <Link
+              to="/games/$gameId/summary"
+              params={{ gameId: game.id.toString() }}
+            >
+              <TrophyIcon className="size-6" />
+            </Link>
+          </Button>
+        )}
       </section>
       <Outlet />
     </main>

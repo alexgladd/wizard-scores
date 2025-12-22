@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { Game } from "@/lib/storage";
 import { cn } from "@/lib/utils";
 import {
   createFileRoute,
@@ -40,6 +41,29 @@ function RoundPlay() {
       newTricks[idx] = --newTricks[idx];
       return newTricks;
     });
+  };
+
+  const onNextClicked = async () => {
+    setIsSubmitting(true);
+    const r = await Game.endRound(game!, round!.numTricks, tricks);
+    if (r) {
+      if (Game.hasNextRound(game!)) {
+        router.navigate({
+          to: "/games/$gameId/rounds/$roundId/bid",
+          params: {
+            gameId: game!.id.toString(),
+            roundId: (r.numTricks + 1).toString(),
+          },
+        });
+      } else {
+        router.navigate({
+          to: "/games/$gameId/summary",
+          params: {
+            gameId: game!.id.toString(),
+          },
+        });
+      }
+    }
   };
 
   return (
@@ -117,7 +141,7 @@ function RoundPlay() {
           <Button
             className="text-lg self-end"
             disabled={isSubmitting || totalTricks !== round!.numTricks}
-            onClick={() => {}}
+            onClick={onNextClicked}
           >
             Next{" "}
             {isSubmitting ? (

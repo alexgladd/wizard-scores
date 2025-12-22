@@ -17,6 +17,11 @@ export interface Round {
   tricks: number[];
 }
 
+export interface Score {
+  playerName: string;
+  score: number;
+}
+
 export interface Game {
   id: number;
   timestamp: number;
@@ -95,6 +100,17 @@ export const Game = {
     }
   },
 
+  async endRound(game: Game, roundNum: number, tricks: number[]) {
+    const round = await this.getRound(game, roundNum);
+    if (round) {
+      round.tricks = tricks;
+      await this.update(game);
+      return round;
+    } else {
+      return null;
+    }
+  },
+
   async getRound(game: Game, roundNum: number) {
     if (roundNum < 1 || roundNum > Rules.numRounds(game.players.length)) {
       console.error(
@@ -126,6 +142,40 @@ export const Game = {
       );
       return null;
     }
+  },
+
+  hasNextRound(game: Game) {
+    return game.rounds.length < Rules.numRounds(game.players.length);
+  },
+
+  getScores(game: Game) {
+    const scores: Score[] = [];
+
+    for (const [idx, player] of game.players.entries()) {
+      const score: Score = {
+        playerName: player.name,
+        score: 0,
+      };
+
+      for (const round of game.rounds) {
+        const tricksBid = round.bids[idx];
+        const tricksWon = round.tricks[idx];
+
+        if (tricksBid === tricksWon) {
+          score.score += 20;
+          score.score += 10 * tricksWon;
+        } else {
+          const tricksDiff = Math.abs(tricksWon - tricksBid);
+          score.score -= 10 * tricksDiff;
+        }
+      }
+
+      scores.push(score);
+    }
+
+    scores.sort((a, b) => b.score - a.score);
+
+    return scores;
   },
 };
 

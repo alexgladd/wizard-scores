@@ -1,3 +1,4 @@
+import { Rules } from "@/lib/rules";
 import { Game } from "@/lib/storage";
 import { createFileRoute, notFound, Outlet } from "@tanstack/react-router";
 
@@ -25,13 +26,13 @@ export const Route = createFileRoute("/games/$gameId/rounds/$roundId")({
 });
 
 function RoundLayout() {
-  const { round } = Route.useLoaderData();
+  const { game, round } = Route.useLoaderData();
 
   return (
     <>
       <section className="mb-4">
         <h2 className="text-lg font-bold tracking-wide text-center">
-          Round #{round.numTricks}
+          Round #{round.numTricks} of {Rules.numRounds(game.players.length)}
         </h2>
       </section>
       <Outlet />
