@@ -52,7 +52,7 @@ function NewGameComponent() {
     onSubmit: async ({ value }) => {
       const g = await Game.new(value.players);
       console.log("Created new game", g);
-      router.navigate({
+      void router.navigate({
         to: "/games/$gameId/rounds/$roundId/bid",
         params: { gameId: g.id.toString(), roundId: "1" },
       });
@@ -74,7 +74,7 @@ function NewGameComponent() {
           onSubmit={(e) => {
             e.preventDefault();
             e.stopPropagation();
-            form.handleSubmit();
+            void form.handleSubmit();
           }}
         >
           <form.Field name="players" mode="array">

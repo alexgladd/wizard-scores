@@ -210,7 +210,7 @@ async function setItemAsync(key: string, value: string) {
       localStorage.setItem(key, value);
       resolve();
     } catch (e) {
-      reject(e);
+      reject(new Error(`Failed to set item ${key}: ${String(e)}`));
     }
   });
 }
