@@ -13,6 +13,7 @@ game nights organized and hassle-free!
 - [x] Persistent game data storage in the browser
 - [ ] Persistent game data storage online
 - [ ] Dealer tracking
+- [ ] Wizard tracking
 - [ ] Show scores page between each round
 - [ ] Help page for the app
 - [ ] More? You tell me (see below)!
