@@ -20,7 +20,7 @@ function GamesList() {
   return (
     <section className="mb-10">
       <h2 className="mb-4 text-xl text-center">{title}</h2>
-      {games && (
+      {games && games.length > 0 && (
         <div className="grid grid-cols-6 gap-3 items-center">
           <div className="font-bold">#</div>
           <div className="font-bold col-span-3">Date</div>

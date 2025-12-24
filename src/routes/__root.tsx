@@ -36,7 +36,7 @@ function RootComponent() {
           </Button> */}
         </header>
         <Outlet />
-        <footer className="bg-background sticky flex h-8 shrink-0 items-center justify-between gap-2 border-t px-4 text-sm text-muted-foreground">
+        <footer className="mb-8 bg-background sticky flex h-8 shrink-0 items-center justify-between gap-2 border-t px-4 text-sm text-muted-foreground">
           <div className="w-16 flex gap-1">
             <a
               href="https://github.com/alexgladd/wizard-scores"
