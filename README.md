@@ -1,69 +1,36 @@
-# React + TypeScript + Vite
+# Wizard Card Game Scorekeeper
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Wizard Scorekeeper is a web app for managing and tracking scores in the card game Wizard. It
+provides an easy-to-use interface to set up games, add 3–6 players, record their bids and tricks
+each round, and automatically calculate scores according to Wizard rules. Perfect for keeping your
+game nights organized and hassle-free!
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- [x] Implement basic rules and scorekeeping
+- [x] Track bids and tricks for each round
+- [x] Automatically tally player scores
+- [x] Persistent game data storage in the browser
+- [ ] Persistent game data storage online
+- [ ] Dealer tracking
+- [ ] Show scores page between each round
+- [ ] Help page for the app
+- [ ] More? You tell me (see below)!
 
-## Expanding the ESLint configuration
+## Feedback
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+Please feel free to report bugs, feature requests, etc. on the
+[issue tracker](https://github.com/alexgladd/wizard-scores/issues).
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Contributing
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+Contributions welcome! Please send me a pull request.
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+Unless you explicitly state otherwise, any contribution intentionally submitted for inclusion in
+this app by you shall be licensed as below, without any additional terms or conditions.
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## License
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+Copyright (c) 2020 Alex Gladd
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+This project is offered under the [MIT license](LICENSE.md)
