@@ -5,6 +5,7 @@ import {
   Outlet,
 } from "@tanstack/react-router";
 import { Github, Heart } from "lucide-react";
+import { version as appVersion } from "../../package.json";
 
 interface RouterCtx {
   game?: Game;
@@ -36,7 +37,7 @@ function RootComponent() {
         </header>
         <Outlet />
         <footer className="bg-background sticky flex h-8 shrink-0 items-center justify-between gap-2 border-t px-4 text-sm text-muted-foreground">
-          <div className="w-10">
+          <div className="w-16 flex gap-1">
             <a
               href="https://github.com/alexgladd/wizard-scores"
               target="_blank"
@@ -44,6 +45,7 @@ function RootComponent() {
             >
               <Github className="size-4" />
             </a>
+            <span>v{appVersion}</span>
           </div>
           <div className="flex gap-1">
             made with <Heart className="size-4 text-destructive" /> by{" "}
@@ -56,7 +58,7 @@ function RootComponent() {
               Alex Gladd
             </a>
           </div>
-          <div className="w-10 text-right">
+          <div className="w-16 text-right">
             <Link to="/legal" className="underline">
               legal
             </Link>
