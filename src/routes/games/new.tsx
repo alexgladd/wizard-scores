@@ -1,3 +1,4 @@
+/* eslint-disable react-x/no-array-index-key */
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -81,9 +82,15 @@ function NewGameComponent() {
             {(field) => (
               <>
                 {field.state.value.map((_, idx) => (
-                  <form.Field key={idx} name={`players[${idx}].name`}>
+                  <form.Field
+                    key={`player${idx}`}
+                    name={`players[${idx}].name`}
+                  >
                     {(subfield) => (
-                      <div key={idx} className="grid items-center gap-3 mb-4">
+                      <div
+                        key={`player${idx}`}
+                        className="grid items-center gap-3 mb-4"
+                      >
                         <Label htmlFor={subfield.name} className="text-md">
                           Player {idx + 1}
                         </Label>

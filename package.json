@@ -26,6 +26,8 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "date-fns": "^4.1.0",
+    "eslint-plugin-react-dom": "^2.4.0",
+    "eslint-plugin-react-x": "^2.4.0",
     "lucide-react": "^0.534.0",
     "react": "^19.2.3",
     "react-dom": "^19.2.3",
