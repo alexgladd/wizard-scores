@@ -51,12 +51,15 @@ function RootComponent() {
               href="https://github.com/alexgladd"
               target="_blank"
               rel="noopener noreferrer"
+              className="underline"
             >
               Alex Gladd
             </a>
           </div>
           <div className="w-10 text-right">
-            <Link to="/legal">legal</Link>
+            <Link to="/legal" className="underline">
+              legal
+            </Link>
           </div>
         </footer>
       </div>

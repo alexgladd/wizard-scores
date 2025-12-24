@@ -48,6 +48,7 @@ function Legal() {
             href="https://github.com/alexgladd/wizard-scores"
             target="_blank"
             rel="noopener noreferrer"
+            className="underline"
           >
             GitHub
           </a>
