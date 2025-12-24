@@ -72,7 +72,7 @@ function RoundPlay() {
         <div className="grid grid-cols-2 gap-3">
           {game!.players.map((player, idx) => (
             <Fragment key={`${idx}-${player}`}>
-              <div className="py-4 text-lg">{player.name}'s tricks:</div>
+              <div className="py-3 text-lg">{player.name}'s tricks:</div>
               <div className="flex items-center gap-3">
                 <Button
                   className="grow"

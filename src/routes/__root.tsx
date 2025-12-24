@@ -1,8 +1,10 @@
-import { Button } from "@/components/ui/button";
 import type { Game, Round } from "@/lib/storage";
-import { createRootRouteWithContext, Outlet } from "@tanstack/react-router";
-import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
-import { Menu } from "lucide-react";
+import {
+  createRootRouteWithContext,
+  Link,
+  Outlet,
+} from "@tanstack/react-router";
+import { Github, Heart } from "lucide-react";
 
 interface RouterCtx {
   game?: Game;
@@ -18,24 +20,47 @@ function RootComponent() {
     <>
       <div className="w-screen h-screen flex flex-col">
         <header className="bg-background flex h-16 shrink-0 items-center gap-4 border-b px-4">
-          <img
-            src="/wizard-card-logo.svg"
-            alt="Wizard card back logo"
-            className="h-10"
-          />
+          <Link to="/">
+            <img
+              src="/wizard-card-logo.svg"
+              alt="Wizard card back logo"
+              className="h-10"
+            />
+          </Link>
           <span className="grow text-2xl font-bold tracking-widest">
             Scorekeeper
           </span>
-          <Button variant="ghost" size="icon" className="size-10 md:hidden">
+          {/* <Button variant="ghost" size="icon" className="size-10 md:hidden">
             <Menu className="size-8" />
-          </Button>
+          </Button> */}
         </header>
         <Outlet />
-        <footer className="bg-background sticky flex h-8 shrink-0 items-center gap-2 border-t px-4 text-sm">
-          Footer
+        <footer className="bg-background sticky flex h-8 shrink-0 items-center justify-between gap-2 border-t px-4 text-sm text-muted-foreground">
+          <div className="w-10">
+            <a
+              href="https://github.com/alexgladd/wizard-scores"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Github className="size-4" />
+            </a>
+          </div>
+          <div className="flex gap-1">
+            made with <Heart className="size-4 text-destructive" /> by{" "}
+            <a
+              href="https://github.com/alexgladd"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Alex Gladd
+            </a>
+          </div>
+          <div className="w-10 text-right">
+            <Link to="/legal">legal</Link>
+          </div>
         </footer>
       </div>
-      <TanStackRouterDevtools position="bottom-right" />
+      {/* <TanStackRouterDevtools position="bottom-right" /> */}
     </>
   );
 }

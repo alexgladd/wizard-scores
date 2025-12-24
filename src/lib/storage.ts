@@ -37,7 +37,7 @@ const GAME_IDS = "WizGameIds";
 const GAME_PREFIX = "WizGame-";
 
 export const Game = {
-  async all() {
+  async ids() {
     const gameIdsJson = await getItemAsync(GAME_IDS);
 
     if (gameIdsJson) {
@@ -53,7 +53,7 @@ export const Game = {
       throw new Error("Wizard games must have 3 to 6 players");
     }
 
-    const allIds = await this.all();
+    const allIds = await this.ids();
     const id = nextId(allIds);
 
     const players: Player[] = newPlayers.map((p) => ({
@@ -73,6 +73,22 @@ export const Game = {
     await this.update(game);
 
     return game;
+  },
+
+  async all() {
+    const ids = await this.ids();
+    const games: Game[] = [];
+
+    for (const id of ids) {
+      const game = await this.get(id);
+      if (game) {
+        games.push(game);
+      }
+    }
+
+    games.sort((a, b) => b.timestamp - a.timestamp);
+
+    return games;
   },
 
   async get(id: number) {
@@ -158,6 +174,11 @@ export const Game = {
       };
 
       for (const round of game.rounds) {
+        // only count the rounds that have been played
+        if (round.numTricks !== round.tricks.reduce((acc, n) => acc + n, 0)) {
+          continue;
+        }
+
         const tricksBid = round.bids[idx];
         const tricksWon = round.tricks[idx];
 

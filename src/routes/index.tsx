@@ -1,3 +1,4 @@
+import GamesList from "@/components/GamesList";
 import { Button } from "@/components/ui/button";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Club, Diamond, Heart, Spade, SquarePlus } from "lucide-react";
@@ -25,9 +26,7 @@ function HomeComponent() {
         <Heart className="text-destructive" />
         <Spade className="text-destructive" />
       </section>
-      <section className="mb-10">
-        <h2 className="text-xl text-center">No previous games</h2>
-      </section>
+      <GamesList />
     </main>
   );
 }
