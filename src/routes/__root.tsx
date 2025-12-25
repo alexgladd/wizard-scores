@@ -1,10 +1,11 @@
+import { Button } from "@/components/ui/button";
 import type { Game, Round } from "@/lib/storage";
 import {
   createRootRouteWithContext,
   Link,
   Outlet,
 } from "@tanstack/react-router";
-import { Github, Heart } from "lucide-react";
+import { CircleQuestionMark, Github, Heart } from "lucide-react";
 import { version as appVersion } from "../../package.json";
 
 interface RouterCtx {
@@ -34,6 +35,16 @@ function RootComponent() {
           {/* <Button variant="ghost" size="icon" className="size-10 md:hidden">
             <Menu className="size-8" />
           </Button> */}
+          <Button
+            variant="ghost"
+            size="icon"
+            className="size-10 text-muted-foreground"
+            asChild
+          >
+            <Link to="/help">
+              <CircleQuestionMark className="size-8" />
+            </Link>
+          </Button>
         </header>
         <Outlet />
         <footer className="mb-8 bg-background sticky flex h-8 shrink-0 items-center justify-between gap-2 border-t px-4 text-sm text-muted-foreground">
