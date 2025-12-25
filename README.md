@@ -12,8 +12,11 @@ game nights organized and hassle-free!
 - [x] Automatically tally player scores
 - [x] Persistent game data storage in the browser
 - [ ] Persistent game data storage online
+- [ ] Import/export game data
+- [ ] Manage game data (delete game/all)
 - [ ] Dealer tracking
 - [ ] Wizard tracking
+- [ ] Continue unfinished game
 - [ ] Show scores page between each round
 - [ ] Help page for the app
 - [ ] More? You tell me (see below)!
@@ -34,4 +37,4 @@ this app by you shall be licensed as below, without any additional terms or cond
 
 Copyright (c) 2020 Alex Gladd
 
-This project is offered under the [MIT license](LICENSE.md)
+This project is offered under the [MIT license](LICENSE)
